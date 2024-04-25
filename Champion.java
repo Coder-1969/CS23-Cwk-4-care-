@@ -9,16 +9,16 @@ public class Champion {
     private String champType;
     private boolean isActive;
     private boolean disqualified;
+    private int strength;
 
 
-
-    public Champion(String name, String type,int entryFee) {
+    public Champion(String name, String type,int entryFee, int str) {
         this.championName = name;
 
         if (type =="Warrior"||type=="Wizard"||type =="Dragon"){
             champType = type;
         }
-
+        strength =str;
         this.entryFee = entryFee;
         this.isActive = false;
     }
@@ -52,19 +52,16 @@ public class Champion {
         return championName + (isActive ? " (active)" : "")+" "+ champType+(isDisqualified() ? " (disqualified)" : "") ;
     }
     // Method to check if the champion can meet the challenge
-    public int meetChallenge(Challenge challenge) {
-        if (!isActive || disqualified)
-            return 2; // Challenge lost as no suitable champion available
-
-        if (challenge.getType().equals(champType)) {
-            if (challenge.getRequiredSkillLevel() <= 5) { // Assuming skill level of champions is 5
-                return 0; // Challenge won
-            } else {
-                disqualify();
-                return 1; // Challenge lost on skill level
-            }
-        } else {
-            return -1; // No such challenge
+    public String toString() {
+        return championName + (isActive ? " (active)" : "")+" "+ champType+(isDisqualified() ? " (disqualified)" : "") ;
+    }
+    // Method to check if the champion can meet the challenge
+    public boolean meetChallenge(Challenge challenge) {
+        if (strength >= challenge.getDifficulityLevel()){
+            return true ; 
+        }
+        else{
+            return false;
         }
     }
 }
