@@ -46,16 +46,21 @@ public class GameGUI
         // set panel layout and add components
         eastPanel.setLayout(new GridLayout(4,1));
         eastPanel.add(meetBtn);
+        eastPanel.add(viewBtn);
         eastPanel.add(clearBtn);
         eastPanel.add(quitBtn);
+
         
         clearBtn.addActionListener(new ClearBtnHandler());
         meetBtn.addActionListener(new MeetBtnHandler());
         quitBtn.addActionListener(new QuitBtnHandler());
-        
+        viewBtn.addActionListener(new ViewBtnHandler());
+
         meetBtn.setVisible(true);
+        viewBtn.setVisible(true);
         clearBtn.setVisible(true);
         quitBtn.setVisible(true);
+
         // building is done - arrange the components and show        
         myFrame.pack();
         myFrame.setVisible(true);
@@ -72,11 +77,29 @@ public class GameGUI
         // create the File menu
         JMenu championMenu = new JMenu("Champions");
         menubar.add(championMenu);
+
+        JMenu challengeMenu = new JMenu("Challenges");
+        menubar.add(challengeMenu);
         
         JMenuItem listChampionItem = new JMenuItem("List Champions in reserve");
         listChampionItem.addActionListener(new ListReserveHandler());
         championMenu.add(listChampionItem);
 
+        JMenuItem listTeamItem = new JMenuItem("List of team");
+        listTeamItem.addActionListener(new ListTeamHandler());
+        championMenu.add(listTeamItem);
+
+        JMenuItem viewChampion = new JMenuItem("View a Champion");
+        viewChampion.addActionListener(new ViewHandler());
+        championMenu.add(viewChampion);
+
+        JMenuItem EnterChampionItem = new JMenuItem("Enter a Champion");
+        EnterChampionItem.addActionListener(new EnterChampHandler());
+        championMenu.add(EnterChampionItem);
+
+        JMenuItem listchallenges = new JMenuItem("List all Challenges");
+        listchallenges.addActionListener(new ListChallengeHandler());
+        challengeMenu.add(listchallenges);
  
     }
     
@@ -87,6 +110,24 @@ public class GameGUI
             listing.setVisible(true);
             String xx = gp.getReserve();
             listing.setText(xx);
+        }
+    }
+    private class ListTeamHandler implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            listing.setVisible(true);
+            String vv = gp.getTeam();
+        }
+    }
+
+    private class ListChallengeHandler implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            listing.setVisible(true);
+            String yy = gp.getAllChallenges();
+            listing.setText(yy);
         }
     }
     
@@ -134,6 +175,44 @@ public class GameGUI
             }              
         }
     }
-    
-}
-   
+
+    private class ViewBtnHandler implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            listing.setVisible(true);
+            String zz = gp.toString();
+            listing.setText(zz);
+        }
+
+    }
+
+    private class ViewHandler implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            String userInput = JOptionPane.showInputDialog(myFrame,
+                    "Enter Champion Name:");
+            if (userInput != null){
+                JOptionPane.showMessageDialog(myFrame, userInput + gp.getChampionDetails(userInput));
+            } else {
+                JOptionPane.showMessageDialog(myFrame, "No Champion name entered");
+            }
+        }
+    }
+
+    private class EnterChampHandler implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+           String userInput =  JOptionPane.showInputDialog(myFrame, "Enter Champion name:");
+            if (userInput != null){
+
+               gp.isInReserve(userInput);
+
+            } else {
+                JOptionPane.showMessageDialog(myFrame, "No such Champion!");
+            }
+        }
+      }
+    }
