@@ -53,10 +53,7 @@ public class Champion {
     public String toString() {
         return championName + (isActive ? " (active)" : "")+" "+ champType+(isDisqualified() ? " (disqualified)" : "") ;
     }
-    // Method to check if the champion can meet the challenge
-    public String toString() {
-        return championName + (isActive ? " (active)" : "")+" "+ champType+(isDisqualified() ? " (disqualified)" : "") ;
-    }
+
     // Method to check if the champion can meet the challenge
     public boolean meetChallenge(Challenge challenge) {
         if (strength >= challenge.getDifficulityLevel()){
