@@ -42,7 +42,9 @@ public class Champion {
     public String getChampionName() {
         return championName;
     }
-
+    public int getStrength(){
+        return strength;
+    }
     public String getChampType() {
         return champType;
     }
