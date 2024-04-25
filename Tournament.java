@@ -13,7 +13,9 @@ public class Tournament implements CARE
 {
    
     private String vizier;
-    private HashMap<String,Champion>champions;
+    private HashMap<String, Champion> champions ;
+    private HashSet<String> team;
+    private int treasury;
     private HashMap<Integer,Challenge>challenges;
 
 
@@ -24,7 +26,10 @@ public class Tournament implements CARE
     public Tournament(String viz)
     {
         this.vizier = viz;
-        
+        champions = new HashMap<>();
+        team = new HashSet<>();
+        treasury = 1000;
+
         setupChampions();
         setupChallenges();
     }
@@ -55,9 +60,26 @@ public class Tournament implements CARE
      **/
     public String toString()
     {
-        String s = "\nVizier: " + vizier ;
+        StringBuilder s = new Stringbuilder();
+        s.append("\nVizier: ").append(vizier);
+        s.append("\nTreasury: ").append(treasury);
+        s.append("\nDefeated: ").apepend(isDefeated() ? "Yes" : "No");
+        s.append("\nChampions in the team: ");
+
+        if (team.isEmpty()){
+            s.append("No Chapions");
+
+        } else {
+            for (String champName : team){
+                s.append(champions.get(champName).toString()).append(",  ");
+
+            }
+
+            int len = s.length();
+            s.delete(len - 2, len);
+        }
         
-        return s;
+        return s.toString();
     }
     
     
@@ -68,7 +90,17 @@ public class Tournament implements CARE
      */
     public boolean isDefeated()
     {
-        return false;
+        if(treasury <= 0 && team.isEmpty()){
+            return true;
+        }
+        for (String champName : team) {
+            Champion champ = champions.get(champName);
+            if (!champ.isDisqualified()){
+                return false;
+            }
+        }
+
+        return treasury <=0 ;
     }
     
     /** returns the amount of money in the Treasury
@@ -76,7 +108,7 @@ public class Tournament implements CARE
      */
     public int getMoney()
     {
-        return 0;
+        return treasury;
     }
     
     
@@ -85,9 +117,22 @@ public class Tournament implements CARE
      **/
     public String getReserve()
     {   
-        String s = "************ Champions available in reserves********";
-        
-        return s;
+        StringBuilder s = new StringBuilder ("************ Champions available in reserves********\n");
+
+        for(Map.Entry<String, Champion> entry : champions.entrySet()){
+            String champName = entry.getKey();
+            Champion champ = entry.getValue();
+
+            if(!team.contains(champName)){
+                s.append(champ.toString().append("\n"));
+            }
+        }
+        if (s.toString().equals("************ Champions available in reserves ********\n")){
+            s.append("No champions in reserves");
+
+        }
+        return s.toString();
+
     }
     
         
@@ -123,8 +168,24 @@ public class Tournament implements CARE
      **/        
     public int enterChampion(String nme)
     {
-        
-        return -1;
+        if(!champions.containsKey(nme)){
+          return -1;
+    }
+        if(team.contains(nme)) {
+            return 1;
+        }
+
+        Champion champ = champions.get(nme);
+
+        if(treasury < chap.getEntryFee()){
+            return 2;
+        }
+
+        treasury -= champ.getEntryFee();
+        team.add(nme);
+        champ.setActive(true);
+
+        return 0;
     }
         
      /** Returns true if the champion with the name is in 
@@ -135,7 +196,7 @@ public class Tournament implements CARE
      **/
     public boolean isInViziersTeam(String nme)
     {
-        return false;
+        return team.contains(nme);
     }
     
     /** Removes a champion from the team back to the reserves (if they are in the team)
@@ -149,15 +210,26 @@ public class Tournament implements CARE
      **/
     public int retireChampion(String nme)
     {
-        return -1;
+        if(!champions.containsKey(nme)){
+            return -1;
+        }
+        if(!team.contains(nme)){
+            return 2;
+        }
+        if (champions.get(nme).isDisqualified()){
+            return 1;
+        }
+
+        team.remove(nme);
+        return 0;
     }
-    
-    
-        
+
     /**Returns a String representation of the champions in the vizier's team
      * or the message "No champions entered"
      * @return a String representation of the champions in the vizier's team
      **/
+
+
     public String getTeam()
     {
         String s = "************ Vizier's Team of champions********";
