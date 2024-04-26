@@ -6,19 +6,16 @@ import java.util.HashSet;
 public class Champion {
     private String championName;
     private int entryFee;
-    private String champType;
+    private String type;
     private boolean isActive;
     private boolean disqualified;
-    private int strength;
+    private int skillLevel;
 
 
-    public Champion(String name, String type,int entryFee, int str) {
+    public Champion(String name, String type,int entryFee, int skl) {
         this.championName = name;
-
-        if (type =="Warrior"||type=="Wizard"||type =="Dragon"){
-            champType = type;
-        }
-        strength =str;
+        this.type = type;
+        skillLevel = skl;
         this.entryFee = entryFee;
         this.isActive = false;
     }
@@ -26,6 +23,7 @@ public class Champion {
     public int getEntryFee() {
         return entryFee;
     }
+
     public boolean isDisqualified() {
         return disqualified;
     }
@@ -42,22 +40,22 @@ public class Champion {
     public String getChampionName() {
         return championName;
     }
-    public int getStrength(){
-        return strength;
+    public int getSkillLevel(){
+        return skillLevel;
     }
     public String getChampType() {
-        return champType;
+        return type;
     }
 
     @Override
     public String toString() {
-        return championName + (isActive ? " (active)" : "")+" "+ champType+(isDisqualified() ? " (disqualified)" : "") ;
+        return "Name:" + championName +" " + "Type:" + (type != null ? type : "Type not set") ;
     }
-
+    // Method to check if the champion can meet the challenge
     // Method to check if the champion can meet the challenge
     public boolean meetChallenge(Challenge challenge) {
-        if (strength >= challenge.getDifficulityLevel()){
-            return true ; 
+        if (skillLevel >= challenge.getRequiredSkillLevel()){
+            return true ;
         }
         else{
             return false;
