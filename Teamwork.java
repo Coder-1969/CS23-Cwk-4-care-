@@ -17,24 +17,24 @@ public class Teamwork
         // Please list the member details alphabetically by surname 
         // i.e. the surname of member1 should come alphabetically 
         // before the surname of member 2...etc
-        details[0] = "team number";
+        details[0] = "CS23";
         
-        details[1] = "surname of member1";
-        details[2] = "first name of member1";
-        details[3] = "SRN of member1";
+        details[1] = "Pathak";
+        details[2] = "Sahil";
+        details[3] = "21091945";
 
-        details[4] = "surname of member2";
-        details[5] = "first name of member2";
-        details[6] = "SRN of member2";
+        details[4] = "Prajapati";
+        details[5] = "Aarya";
+        details[6] = "21085565";
 
-        details[7] = "surname of member3";
-        details[8] = "first name of member3";
-        details[9] = "SRN of member3";
+        details[7] = "Chaudhary";
+        details[8] = "Hritik";
+        details[9] = "21081214";
 
 
-        details[10] = "surname of member4";
-        details[11] = "first name of member4";
-        details[12] = "SRN of member4";
+        details[10] = "Varghese";
+        details[11] = "Alvin";
+        details[12] = "21070011";
 
     }
     
